@@ -1,0 +1,143 @@
+using System.Diagnostics.CodeAnalysis;
+
+string msgbv = @"
+███╗░░░███╗██╗░██████╗████████╗██╗░░░██╗
+████╗░████║██║██╔════╝╚══██╔══╝╚██╗░██╔╝
+██╔████╔██║██║╚█████╗░░░░██║░░░░╚████╔╝░
+██║╚██╔╝██║██║░╚═══██╗░░░██║░░░░░╚██╔╝░░
+██║░╚═╝░██║██║██████╔╝░░░██║░░░░░░██║░░░
+╚═╝░░░░░╚═╝╚═╝╚═════╝░░░░╚═╝░░░░░░╚═╝░░░
+";
+
+Dictionary<string, List<int>> bandasRegistradas = new Dictionary<string, List<int>>();
+
+void ExibirLogo()
+{
+    Console.WriteLine(msgbv);
+}
+
+//https://fsymbols.com
+
+void ExibirOpMenu()
+{
+    Console.Clear();
+    ExibirLogo();
+    Console.WriteLine("Digite 1 para regristrar uma banda");
+    Console.WriteLine("Digite 2 para Mostrar todas as bandas");
+    Console.WriteLine("Digite 3 para Avaliar uma Banda");
+    Console.WriteLine("Digite 4 para Exibir a media de uma banda");
+    Console.WriteLine("Digite 0 para sair");
+
+    Console.Write("\nDigite a sua opção: ");
+    string OpEsc = Console.ReadLine()!;
+    int OpEscNum = int.Parse(OpEsc);
+
+
+    switch (OpEscNum)
+    {
+        case 1:
+            registrarBanda();
+            break;
+        case 2:
+            mostrarBandasRegistradas();
+            break;
+        case 3:
+            avaliarUmaBanda();
+            break;
+        case 4:
+            mediaBanda();
+            break;
+        case 0:
+            Console.WriteLine("\nVolte sempre!");
+            ExibirLogo();
+            break;
+        default:
+            Console.WriteLine("Opção invalida, insira uma opção válida");
+            break;
+
+    }
+
+}
+
+void registrarBanda()
+{
+    Console.Clear();
+    Console.WriteLine(@"
+█▀█ █▀▀ █▀▀ █ █▀ ▀█▀ █▀█ █▀█   █▀▄ █▀▀   █▄▄ ▄▀█ █▄░█ █▀▄ ▄▀█ █▀
+█▀▄ ██▄ █▄█ █ ▄█ ░█░ █▀▄ █▄█   █▄▀ ██▄   █▄█ █▀█ █░▀█ █▄▀ █▀█ ▄█");
+    Console.Write("\nDigite o nome da banda que deseja registrar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    bandasRegistradas.Add(nomeDaBanda, new List<int>());
+    Console.WriteLine($"A banda {nomeDaBanda} foi registrada com sucesso!");
+    Thread.Sleep(1000);
+    ExibirOpMenu();
+}
+
+void mostrarBandasRegistradas()
+{
+    Console.Clear();
+    Console.WriteLine(@"
+█▄▄ ▄▀█ █▄░█ █▀▄ ▄▀█ █▀   █▀█ █▀▀ █▀▀ █ █▀ ▀█▀ █▀█ ▄▀█ █▀▄ ▄▀█ █▀
+█▄█ █▀█ █░▀█ █▄▀ █▀█ ▄█   █▀▄ ██▄ █▄█ █ ▄█ ░█░ █▀▄ █▀█ █▄▀ █▀█ ▄█" + "\n");
+    // for(int i = 0; i < bandas.Count; i++)
+    // {
+    //     Console.WriteLine($"{i+1}ª Banda: {bandas[i]}");
+    // }
+
+
+    foreach (string banda in bandasRegistradas.Keys)
+    {
+        Console.WriteLine($"Banda: {banda}");
+    }
+    Console.WriteLine("\nAperte qualquer botão para voltar ao menu principal");
+    Console.ReadKey();
+    ExibirOpMenu();
+}
+
+void avaliarUmaBanda()
+{
+    Console.Clear();
+    Console.Write(@"
+▄▀█ █░█ ▄▀█ █░░ █ ▄▀█ █▀█   █▄▄ ▄▀█ █▄░█ █▀▄ ▄▀█
+█▀█ ▀▄▀ █▀█ █▄▄ █ █▀█ █▀▄   █▄█ █▀█ █░▀█ █▄▀ █▀█");
+    Console.Write("\nDigite o nome da banda que deseja avaliar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        Console.WriteLine($"Qual nota a banda {nomeDaBanda} merece? ");
+        int nota = int.Parse(Console.ReadLine()!);
+        bandasRegistradas[nomeDaBanda].Add(nota);
+        Console.WriteLine($"\nA nota {nota} foi registrada com sucesso!");
+        ExibirOpMenu();
+
+    }
+    else
+    {
+        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada! ");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        ExibirOpMenu();
+    }
+}
+
+void mediaBanda()
+{
+    Console.Clear();
+    Console.Write(@"
+█▀▄▀█ █▀▀ █▀▄ █ ▄▀█   █▀▄ ▄▀█   █▄▄ ▄▀█ █▄░█ █▀▄ ▄▀█
+█░▀░█ ██▄ █▄▀ █ █▀█   █▄▀ █▀█   █▄█ █▀█ █░▀█ █▄▀ █▀█");
+    Console.Write("\nDigite o nome da banda que deseja ver a media: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        List<int> mediaBanda = bandasRegistradas[nomeDaBanda];
+        System.Console.WriteLine($"A media da banda {nomeDaBanda} e {mediaBanda.Average()}");
+        System.Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+
+    }
+    Thread.Sleep(5000);
+    ExibirOpMenu();
+}
+
+ExibirOpMenu();
